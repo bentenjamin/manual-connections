@@ -1,3 +1,7 @@
+# Fork
+
+This fork is to have an automated startup and port forward. The port will ping with cron and forward the port to a discord webhook that will post the servers ip address every time it changes.
+
 # Manual PIA VPN Connections
 
 This repository contains documentation on how to create native WireGuard and OpenVPN connections to our __NextGen network__, and also on how to enable Port Forwarding in case you require this feature. You will find a lot of information below. However if you prefer quick test, here is the __TL/DR__:
