@@ -114,7 +114,7 @@ signature="$(echo "$payload_and_signature" | jq -r '.signature')"
 payload="$(echo "$payload_and_signature" | jq -r '.payload')"
 port="$(echo "$payload" | base64 -d | jq -r '.port')"
 
-# Set iptables port forwarding
+# Set iptables port forwarding and send ip address to discord webhook
 port=$port ./ip_config.sh
 
 # The port normally expires after 2 months. If you consider
