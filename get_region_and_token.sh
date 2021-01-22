@@ -99,7 +99,7 @@ if [ -z "$bestRegion" ]; then
   echo ...
   echo No region responded within ${MAX_LATENCY}s, consider using a higher timeout.
   echo For example, to wait 1 second for each region, inject MAX_LATENCY=1 like this:
-  echo $ MAX_LATENCY=1 ./get_region_and_token.sh
+  echo $ MAX_LATENCY=1 /pia/get_region_and_token.sh
   exit 1
 fi
 
@@ -139,7 +139,7 @@ OpenVPN UDP: $bestServer_OU_IP // $bestServer_OU_hostname
 if [[ ! $PIA_USER || ! $PIA_PASS ]]; then
   echo If you want this script to automatically get a token from the Meta
   echo service, please add the variables PIA_USER and PIA_PASS. Example:
-  echo $ PIA_USER=p0123456 PIA_PASS=xxx ./get_region_and_token.sh
+  echo $ PIA_USER=p0123456 PIA_PASS=xxx /pia/get_region_and_token.sh
   exit 1
 fi
 
@@ -173,15 +173,15 @@ if [ "$PIA_PF" != true ]; then
 fi
 
 if [[ $PIA_AUTOCONNECT == wireguard ]]; then
-  echo The ./get_region_and_token.sh script got started with
+  echo The /pia/get_region_and_token.sh script got started with
   echo PIA_AUTOCONNECT=wireguard, so we will automatically connect to WireGuard,
   echo by running this command:
   echo $ PIA_TOKEN=\"$token\" \\
   echo WG_SERVER_IP=$bestServer_WG_IP WG_HOSTNAME=$bestServer_WG_hostname \\
-  echo PIA_PF=$PIA_PF ./connect_to_wireguard_with_token.sh
+  echo PIA_PF=$PIA_PF /pia/connect_to_wireguard_with_token.sh
   echo
   PIA_PF=$PIA_PF PIA_TOKEN="$token" WG_SERVER_IP=$bestServer_WG_IP \
-    WG_HOSTNAME=$bestServer_WG_hostname ./connect_to_wireguard_with_token.sh
+    WG_HOSTNAME=$bestServer_WG_hostname /pia/connect_to_wireguard_with_token.sh
   exit 0
 fi
 
@@ -221,8 +221,8 @@ echo You can also specify the env var PIA_PF=true to get port forwarding.
 echo
 echo Example:
 echo $ PIA_USER=p0123456 PIA_PASS=xxx \
-  PIA_AUTOCONNECT=wireguard PIA_PF=true ./get_region_and_token.sh
+  PIA_AUTOCONNECT=wireguard PIA_PF=true /pia/get_region_and_token.sh
 echo
 echo You can also connect now by running this command:
 echo $ PIA_TOKEN=\"$token\" WG_SERVER_IP=$bestServer_WG_IP \
-  WG_HOSTNAME=$bestServer_WG_hostname ./connect_to_wireguard_with_token.sh
+  WG_HOSTNAME=$bestServer_WG_hostname /pia/connect_to_wireguard_with_token.sh

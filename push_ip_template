@@ -1,0 +1,6 @@
+import sys
+from discord_webhook import DiscordWebhook
+
+webhook = DiscordWebhook(url='https://discord.com/api/webhooks/801716115947782204/_fiqedPjys-PxytcVzramq9GOF741ch520PIxKhD86jlKbHE0KdKQWCrDh1y3jASPmV-',
+        content='{0}:{1}'.format(sys.argv[1], sys.argv[2]))
+response = webhook.execute()

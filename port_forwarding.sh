@@ -90,6 +90,15 @@ port="$(echo "$payload" | base64 -d | jq -r '.port')"
 # 2 months is not enough for your setup, please open a ticket.
 expires_at="$(echo "$payload" | base64 -d | jq -r '.expires_at')"
 
+# Get ip
+ip=`/pia/get_ip.sh`
+
+# Send ip address to discord
+sudo python3 push_ip.py $ip $port
+
+# Set iptables port forwarding
+port=$port /pia/iptables_config.sh
+
 # Display some information on the screen for the user.
 echo "The signature is OK.
 
