@@ -2,18 +2,18 @@
 
 This fork is intended for automated port forwarding to the default minecraft server port.
 
-My specific use case:
-I have a minecraft server hosted on a PI. My ISP will not let me port foward. I have constant power outages.
-I got pia because of port forwarding and its a highly regarded. This wil let me port forward so i can host the server. i cant use the app or the cli because its not supported on arm64 so i need to use this. i cant afford the static ip so i send the ip to my discord server. i want the ip to change as little as possible.
-Implementation: Have a service that starts the scripts on startup. The scripts start in the background in screen allowing debugging and logging while being out of the way. The startup script has my details to run the setup script with my pia details and port forwarding selected. PIA starts using wireguard. Does all the things and gets to port forwarding. the port forwarding script checks if there is a stored signature. gets a new signature if there isnt one or if its expired. sends the ip and port to a discord webhook. binds the port and pings it every 15 minutes.
+ * My specific use case:
+ * I have a minecraft server hosted on a PI. My ISP will not let me port foward. I have constant power outages.
+ * I got pia because of port forwarding and its a highly regarded. This wil let me port forward so i can host the server. i cant use the app or the cli because its not supported on arm64 so i need to use this. i cant afford the static ip so i send the ip to my discord server. i want the ip to change as little as possible.
+ * Implementation: Have a service that starts the scripts on startup. The scripts start in the background in screen allowing debugging and logging while being out of the way. The startup script has my details to run the setup script with my pia details and port forwarding selected. PIA starts using wireguard. Does all the things and gets to port forwarding. the port forwarding script checks if there is a stored signature. gets a new signature if there isnt one or if its expired. sends the ip and port to a discord webhook. binds the port and pings it every 15 minutes.
 
 # Setup
 
-intstall the vpnpf.service and change the lauch directory to the repos directory.
-Put your PIA details into setup_params.
-Fill your discord webhook url into push_ip.py
-???
-Profit
+ * intstall the vpnpf.service and change the lauch directory to the repos directory.
+ * Put your PIA details into setup_params.
+ * Fill your discord webhook url into push_ip.py
+ * ???
+ * Profit
 
 # Manual PIA VPN Connections
 
