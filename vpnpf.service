@@ -1,0 +1,14 @@
+[Unit]
+Description=pia vpn
+After=minecraft.service
+
+[Service]
+User=ubuntu
+WorkingDirectory=/pia/
+Type=forking
+ExecStart=/bin/bash /pia/init_screen.sh
+GuessMainPID=no
+TimeoutStartSec=600
+
+[Install]
+WantedBy=multi-user.target
