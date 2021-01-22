@@ -81,6 +81,12 @@ fi
 # If you already have a signature, and you would like to re-use that port,
 # save the payload_and_signature received from your previous request
 # in the env var PAYLOAD_AND_SIGNATURE, and that will be used instead.
+
+# Import payload and signature
+if [[ -e ".piarc" ]]; then
+  PAYLOAD_AND_SIGNATURE=$(cat .piarc | jq .)
+fi
+
 if [[ ! $PAYLOAD_AND_SIGNATURE ]]; then
   echo
   echo -n "Getting new signature... "
@@ -89,6 +95,10 @@ if [[ ! $PAYLOAD_AND_SIGNATURE ]]; then
     --cacert "ca.rsa.4096.crt" \
     -G --data-urlencode "token=${PIA_TOKEN}" \
     "https://${PF_HOSTNAME}:19999/getSignature")"
+  
+  # Write payload and signature to file
+  echo "$payload_and_signature" > .piarc
+
 else
   payload_and_signature="$PAYLOAD_AND_SIGNATURE"
   echo -n "Checking the payload_and_signature from the env var... "
@@ -114,12 +124,29 @@ signature="$(echo "$payload_and_signature" | jq -r '.signature')"
 payload="$(echo "$payload_and_signature" | jq -r '.payload')"
 port="$(echo "$payload" | base64 -d | jq -r '.port')"
 
-# Set iptables port forwarding and send ip address to discord webhook
-port=$port ./ip_config.sh
+# send ip address to discord webhook
+sudo python3 push_ip.py $WG_SERVER_IP $port
+
+# Set iptables port forwarding to minecraft default
+sudo iptables -t nat -A PREROUTING -p tcp -i pia --dport $port -j REDIRECT --to-port 25565
 
 # The port normally expires after 2 months. If you consider
 # 2 months is not enough for your setup, please open a ticket.
 expires_at="$(echo "$payload" | base64 -d | jq -r '.expires_at')"
+
+# Check if token is expired
+current_date=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+
+if [[ "$expires_at" < "$current_date" ]] ;
+then
+  echo "signature is out of date, getting a new one"
+  rm .piarc
+  PIA_TOKEN=$PIA_TOKEN \
+  PF_GATEWAY=$WG_SERVER_IP \
+  PF_HOSTNAME=$WG_HOSTNAME \
+  ./port_forwarding.sh
+  exit 1
+fi
 
 echo -ne "
 Signature ${GREEN}$signature${NC}

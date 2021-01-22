@@ -1,3 +1,4 @@
 logs/*
-start.sh
+setup_params.sh
 push_ip.py
+.piarc
