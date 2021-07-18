@@ -10,7 +10,8 @@ This fork is intended for automated port forwarding to the default minecraft ser
 # Setup
 
  * intstall the vpnpf.service in systemd and change the directory of run_screen to the repos directory.
- *```sudo apt install screen```
+ *```sudo apt install screen
+ pip install discord-webhook```
  * Put your PIA details into setup_params.
  * Fill your discord webhook url into push_ip.py
  * ???
